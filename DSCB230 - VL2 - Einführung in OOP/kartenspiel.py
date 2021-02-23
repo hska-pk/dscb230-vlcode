@@ -67,6 +67,8 @@ k5 = Spielkarte('pik', '7')
 k4.drucken()
 k5.drucken()
 
+import random
+
 class Spielkarte2():
     """ Klasse zur Repräsentation von Spielkarten (v2) """
 
@@ -93,7 +95,7 @@ class Spielkarte2():
     @property
     def wert(self):
         """ get-Methode von Attribut wert """
-        print("getter von farbe aufgerufen")
+        print("getter von wert aufgerufen")
         return self._wert
 
     @farbe.setter
@@ -109,6 +111,21 @@ class Spielkarte2():
     def drucken(self):
         """ gibt den String der Spielkarte auf der Konsole aus """
         print(self)
+
+    @staticmethod
+    def zufallskarte():
+        """ erzeugt eine zufällige Spielkarte """
+        farben = ['kreuz', 'pik', 'karo', 'herz']
+        zufallsfarbe = random.choice(farben)  # ziehe zufällige Farbe
+        werte = [7, 8, 9, 10, 'bube', 'dame', 'koenig', 'as']
+        zufallswert = random.choice(werte)  # ziehe zufälligen Wert
+        return Spielkarte(zufallsfarbe, zufallswert)
+
+
+
+    
+
+
     
 
 # getter/setter ermöglichen folgenden Code:
@@ -137,4 +154,41 @@ print(f"Result of 'x1 is x2'? {x1 is x2}")  # liefert False!
 print(f"Result of 'x1 is x3'? {x1 is x3}")  # liefert True!
     
     
+zufallskarte = Spielkarte2.zufallskarte()
+zufallskarte.drucken()
 
+
+
+
+class Kartenspiel():
+    """ Klasse, die ein Standard-Kartenspiel enthält """
+
+    def __init__(self):
+        """ Konstruktor: legt ein Standard-Kartenspiel an """
+        farben = ['kreuz', 'pik', 'karo', 'herz']
+        werte = [7, 8, 9, 10, 'bube', 'dame', 'koenig', 'as']
+
+        self._spielkarten = []  # Liste mit allen Spielkarten im Spiel
+        for f in farben:
+            for w in werte:
+                self._spielkarten.append(Spielkarte2(farbe=f, wert=w))
+
+    def __iter__(self):
+        """ Initialisiert den Iterator """
+        self._i = 0  # Initalisierung des Iterators (Startindex 0)
+        return self
+    
+    def __next__(self):
+        """ Liefert die nächste Karte bis zum Ende der Liste """ 
+        if self._i < len(self._spielkarten):
+            karte = self._spielkarten[self._i]
+            self._i += 1
+            return karte
+        else:
+            raise StopIteration()
+
+
+# Verwendung des Iterators in einer for-Schleife
+spiel = Kartenspiel()
+for karte in spiel:
+    karte.drucken()
