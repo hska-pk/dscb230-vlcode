@@ -10,11 +10,11 @@ class ShapeCollection:
     """ Collection of Shapes """
 
     def __init__(self):
-        self.allpoints = []
+        self.allshapes = []
 
     def addshape(self, shape):
         """ adds a shape to the collection """
-        self.allpoints.append(shape)
+        self.allshapes.append(shape)
 
     
     def add_random_points(self, n=100, max_x=100, max_y=100):
@@ -30,8 +30,8 @@ class ShapeCollection:
     
     def _get_dimensions(self):
         """ returns the maximum values of x and y """
-        max_x = max([p.x for p in self.allpoints])
-        max_y = max([p.y for p in self.allpoints])
+        max_x = max([p.x for p in self.allshapes])
+        max_y = max([p.y for p in self.allshapes])
         return (max_x, max_y)
 
 
@@ -42,7 +42,7 @@ class ShapeCollection:
 
         draw = ImageDraw.Draw(im)
         
-        for p in self.allpoints:
+        for p in self.allshapes:
             draw.point((p.x, p.y), fill=choice(colors))
             
             
